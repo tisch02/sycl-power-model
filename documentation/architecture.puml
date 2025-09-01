@@ -1,0 +1,67 @@
+@startuml arch
+
+
+
+package "Framework" <<Folder>> {
+
+    enum Benchmark{
+        ADD
+        COPY
+        [...]
+    }
+
+    class ModelBuilder{
+        {method} + Run([...])                
+        {method} - registerRun(benchmark : Benchmark, [...])
+    }
+
+    class BenchmarkSuite{
+        {method} + Run(benchmark : Benchmark, [...])                    
+        {method} + WriteCsv(path : string)
+
+        {method} - startMeasuring()
+        {method} - stopMeasuring()
+
+        {method} - benchmark_add() : int
+        {method} - benchmark_copy() : int
+        {method} [...]
+    }
+
+    class PapiWrapper{
+        {method} + Start()
+        {method} + Stop()
+    }
+
+    class PowerWrapper{
+        {method} + PowerWrapper(int interval)
+        {method} + Start()
+        {method} + Stop()
+    }
+
+    package Implementations <<folder>>{
+        interface PowerWrapperAmd ##[dotted]
+
+        interface PowerWrapperNvidia ##[dotted]
+
+        interface PowerWrapperIntel ##[dotted]
+    }
+
+
+}
+
+ModelBuilder *-- BenchmarkSuite : uses >
+
+BenchmarkSuite *-- PapiWrapper : uses >
+BenchmarkSuite *-- PowerWrapper : uses >
+
+PowerWrapper <|-- PowerWrapperAmd
+PowerWrapper <|-- PowerWrapperNvidia
+PowerWrapper <|-- PowerWrapperIntel
+
+ModelBuilder . Benchmark
+BenchmarkSuite . Benchmark
+
+hide empty methods
+hide empty fields
+
+@enduml

@@ -1,0 +1,11 @@
+*.out
+*.ll
+*.o
+__pycache__
+*.gz
+build
+*.spv
+*.bc
+.vscode
+*.csv
+*.png

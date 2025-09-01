@@ -1,0 +1,35 @@
+@startuml
+participant "Thread 1" as A
+
+
+participant "Thread 2" as B
+
+[-> A: Start
+activate A
+
+hnote over A: Prepare Data
+
+A -> B: Start Measuring
+activate A
+activate B
+
+hnote over A: Run Kernel
+
+loop until stop
+    hnote over B: Query and save\npower measurement
+    B --> B: wait and recall
+end
+
+A --> A: Kernel finished
+A -> B: Stop Measuring
+deactivate A
+destroy B
+
+hnote over A: Cleanup Data
+
+
+
+[<- A: Continue
+
+deactivate A
+@enduml
